@@ -75,6 +75,10 @@ docker build -t fastapi-app .
 docker run -p 8000:8000 fastapi-app
 ```
 
+```sh
+docker run -e DATABASE_URL="postgresql+asyncpg://user:password@host:port/dbname" -p 8000:8000 my-fastapi-app
+```
+
 ## 📌 Troubleshooting
 
 - If **dependencies fail**, ensure you're using the correct Python version (`python --version`).
