@@ -5,6 +5,18 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from models import Detection, Video
 from database import SessionLocal
+import os
+
+MODEL_PATH = "yolov8s.pt"
+def download_yolo():
+    """Ensure YOLO model is downloaded before running detection."""
+    if not os.path.exists(MODEL_PATH):
+        print("Downloading YOLOv8 model...")
+        torch.hub.download_url_to_file(
+            "https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8s.pt",  
+            MODEL_PATH
+        )
+        print("Download complete.")
 
 async def process_video(video_path, video_id):
     cap = cv2.VideoCapture(video_path)
