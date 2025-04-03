@@ -1,19 +1,22 @@
-# Use official Python image as a base
 FROM python:3.11
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy requirements file and install dependencies
-COPY requirements.txt .
+# Install system dependencies required by OpenCV
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0
 
+# Copy requirements and install dependencies
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application files
 COPY . .
 
-# Expose the port FastAPI runs on
+# Expose FastAPI port
 EXPOSE 8000
 
-# Command to run the application
+# Run the application
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
